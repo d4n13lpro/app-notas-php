@@ -9,17 +9,17 @@
                     <div class="ml-10 flex items-baseline space-x-4">
 
                         <a href="./"
-                            class="<?= $heading === 'Home' ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
+                            class="<?= urlIs('/app_notes_pract') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
                             Home
                         </a>
 
                         <a href="about"
-                            class="<?= $heading === 'About' ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
+                            class="<?= urlIs('/app_notes_pract/about') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
                             About
                         </a>
 
                         <a href="contact"
-                            class="<?= $heading === 'Contact' ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
+                            class="<?= urlIs('/app_notes_pract/about') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
                             Contact
                         </a>
 

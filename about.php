@@ -1,3 +1,3 @@
 <?php
-$heading = "About";
+$heading = "About Us";
 require 'views/about.view.php';

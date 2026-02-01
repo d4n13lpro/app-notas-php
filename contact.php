@@ -1,3 +1,3 @@
 <?php
-$heading = "Contact";
+$heading = "Contact Us";
 require 'views/contact.view.php';
