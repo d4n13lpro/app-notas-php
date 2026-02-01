@@ -1,11 +1,13 @@
 ESTRUCTURA DEL PROYECTO
-Generado el: 2026-02-01 02:05:55
+Generado el: 2026-02-01 03:48:47
 ==============================
 
 app_notas_pract\
 ├── .htaccess
-├── about.php
-├── contact.php
+├── controllers
+│   ├── about.php
+│   ├── contact.php
+│   └── index.php
 ├── estructura_proyecto.txt
 ├── functions.php
 ├── index.php
