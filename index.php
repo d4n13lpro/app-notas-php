@@ -3,6 +3,13 @@
 require "functions.php";
 require 'Database.php';
 $config = require 'config.php';
+$db = new Database(
+    $config['database'],
+    $config['database']['user'],
+    $config['database']['password']
+);
+
+
 
 // 2. Cargar el ruteo AL FINAL
 require "router.php";

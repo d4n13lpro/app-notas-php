@@ -16,7 +16,7 @@ function abort($code = 404)
     die();
 }
 
-function routeToController($uri, $routes, $config)
+function routeToController($uri, $routes, $db)
 {
     if (array_key_exists($uri, $routes)) {
         require $routes[$uri];
@@ -25,4 +25,4 @@ function routeToController($uri, $routes, $config)
     }
 }
 
-routeToController($uri, $routes, $config);
+routeToController($uri, $routes, $db);
