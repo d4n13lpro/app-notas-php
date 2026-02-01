@@ -1,0 +1,11 @@
+RewriteEngine On
+# Indica que tu proyecto está en esta subcarpeta específica
+RewriteBase /app_notas_pract/
+
+# Si el usuario pide una ruta que no es un archivo real (como /about)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Revisa si existe un archivo .php con ese nombre y cárgalo
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^/]+)$ $1.php [L]

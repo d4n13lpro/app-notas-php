@@ -1,0 +1,14 @@
+ESTRUCTURA DEL PROYECTO
+Generado el: 2026-02-01 00:47:44
+==============================
+
+app_notas_pract\
+├── .htaccess
+├── about.php
+├── about.view.php
+├── contact.php
+├── contact.view.php
+├── ejecutar_mapa.bat
+├── estructura_proyecto.txt
+├── index.php
+└── index.view.php
