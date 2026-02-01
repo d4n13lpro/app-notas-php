@@ -1,0 +1,18 @@
+ESTRUCTURA DEL PROYECTO
+Generado el: 2026-02-01 01:23:34
+==============================
+
+app_notas_pract\
+├── .htaccess
+├── about.php
+├── contact.php
+├── index.php
+└── views
+    ├── about.view.php
+    ├── contact.view.php
+    ├── index.view.php
+    └── partials
+        ├── footer.php
+        ├── head.php
+        ├── header.php
+        └── nav.php
