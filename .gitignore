@@ -1,0 +1,14 @@
+# Configuración sensible (Contraseñas, API Keys)
+config.php
+
+# Archivos temporales de Sistema
+.DS_Store
+Thumbs.db
+
+# Logs de error
+*.log
+error_log
+
+# IDEs y Editores (Opcional pero recomendado)
+.vscode/
+.idea/

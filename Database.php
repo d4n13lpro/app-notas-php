@@ -11,7 +11,7 @@ class Database
      * Inicializa la conexión con el motor MySQL.
      * @param array $config Parámetros de conexión (host, dbname, charset, etc).
      */
-    public function __construct($config, $username = 'notesuser', $password = '')
+    public function __construct($config, $username, $password)
     {
         // Construye el DSN dinámicamente a partir de un arreglo asociativo
         $dsn = 'mysql:' . http_build_query($config, '', ';');
