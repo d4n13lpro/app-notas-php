@@ -6,7 +6,8 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $routes = [
     "/app_notas_pract/" => "controllers/index.php",
     "/app_notas_pract/about" => "controllers/about.php",
-    "/app_notas_pract/contact" => "controllers/contact.php"
+    "/app_notas_pract/contact" => "controllers/contact.php",
+    "/app_notas_pract/notes" => "controllers/notes.php"
 ];
 
 function abort($code = 404)

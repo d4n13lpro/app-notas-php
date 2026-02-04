@@ -22,6 +22,11 @@
                             About
                         </a>
 
+                        <a href="notes"
+                            class="<?= urlIs('/app_notas_pract/notes') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
+                            Notes
+                        </a>
+
                         <a href="contact"
                             class="<?= urlIs('/app_notas_pract/contact') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">
                             Contact
