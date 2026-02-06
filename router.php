@@ -7,7 +7,8 @@ $routes = [
     "/app_notas_pract/" => "controllers/index.php",
     "/app_notas_pract/about" => "controllers/about.php",
     "/app_notas_pract/contact" => "controllers/contact.php",
-    "/app_notas_pract/notes" => "controllers/notes.php"
+    "/app_notas_pract/notes" => "controllers/notes.php",
+    "/app_notas_pract/note" => "controllers/note.php"
 ];
 
 function abort($code = 404)

@@ -8,6 +8,7 @@ $config = require 'config.php';
 // 2. Instanciar la base de datos UNA SOLA VEZ
 $db = new Database($config['database'], $config['user'], $config['password']);
 
+require 'Response.php';
 
 // 2. Cargar el ruteo AL FINAL
 require "router.php";
