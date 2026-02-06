@@ -1,14 +1,23 @@
 <?php
-// 1. Cargar herramientas y funciones
-require "functions.php";
+
+/**
+ * Bootstrapping: Cargamos el corazón de la aplicación
+ */
+require 'functions.php';
 require 'Database.php';
-// 1. Cargar configuración
+require 'Response.php'; // Cargado junto a las herramientas
+
+// 1. Cargamos la configuración técnica
 $config = require 'config.php';
 
-// 2. Instanciar la base de datos UNA SOLA VEZ
-$db = new Database($config['database'], $config['user'], $config['password']);
+// 2. Inicializamos componentes globales (Conexión Única)
+$db = new Database(
+    $config['database'],
+    $config['user'],
+    $config['password']
+);
 
-require 'Response.php';
-
-// 2. Cargar el ruteo AL FINAL
-require "router.php";
+/**
+ * Despacho: El Router toma el control al final
+ */
+require 'router.php';
