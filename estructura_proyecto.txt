@@ -1,5 +1,5 @@
 ESTRUCTURA DEL PROYECTO
-Generado el: 2026-02-08 16:28:01
+Generado el: 2026-02-08 17:41:27
 ==============================
 
 app_notas_pract\
@@ -22,6 +22,7 @@ app_notas_pract\
 ├── exportador.php
 ├── functions.php
 ├── index.php
+├── proyecto_completo.txt
 ├── router.php
 ├── routes.php
 └── views

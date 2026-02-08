@@ -1,6 +1,6 @@
 ==========================================
 ESTRUCTURA Y CÓDIGO DEL PROYECTO
-Fecha: 2026-02-08 16:47:51
+Fecha: 2026-02-08 17:50:44
 Raíz: app_notas_pract
 ==========================================
 
@@ -61,6 +61,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 ARCHIVO: config.php
 ============================================================
 <?php
+// config.php
 
 /**
  * Configuración global de la aplicación.
@@ -85,7 +86,7 @@ return [
 ARCHIVO: controllers\about.php
 ============================================================
 <?php
-
+// controllers/about.php
 //dd(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $heading = "About Us";
 require 'views/about.view.php';
@@ -95,7 +96,7 @@ require 'views/about.view.php';
 ARCHIVO: controllers\contact.php
 ============================================================
 <?php
-
+// controllers/contact.php
 //dd(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $heading = "Contact Us";
 require 'views/contact.view.php';
@@ -105,6 +106,7 @@ require 'views/contact.view.php';
 ARCHIVO: controllers\index.php
 ============================================================
 <?php
+// controllers/index.php
 
 /**
  * Controlador de la página de inicio (Landing Page).
@@ -131,26 +133,18 @@ require 'views/index.view.php';
 ARCHIVO: controllers\notes\create.php
 ============================================================
 <?php
+// controllers/notes/create.php
+
 require 'Validator.php';
-$heading = "Create Note";
+
 $currentUserId = 2;
-$errors = []; // Inicializamos el contenedor de errores
-
-
-
-// if (!Validator::email('danielhotmail.com')) {
-//     dd('Email no válido');
-// }
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $errors = []; // Reiniciamos errores en cada POST
-
-
     if (!Validator::string($_POST['body'], 1, 1000)) {
-        $errors['body'] = 'A body of the note is required and must be between 1 and 1000 characters.';
+        $errors['body'] = 'A body is required and must be between 1 and 1000 characters.';
     }
 
-    // Si NO hay errores, procedemos a guardar
     if (empty($errors)) {
         $db->query(
             "INSERT INTO notes(body, user_id) VALUES(:body, :user_id)",
@@ -164,90 +158,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require 'views/notes/note-create.view.php';
+// Cargar la vista al final, pasando los errores (estén vacíos o no)
+view('notes/note-create.view.php', [
+    'heading' => 'Create Note',
+    'errors' => $errors
+]);
 
 
 ============================================================
 ARCHIVO: controllers\notes\index.php
 ============================================================
 <?php
+// controllers/notes/index.php
 
-/**
- * Controlador para el listado de notas del usuario.
- */
-
-dd(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
+// 1. Lógica y datos
 $heading = "My Notes";
-
-// Simulamos el ID del usuario autenticado (más adelante vendrá de $_SESSION)
 $currentUserId = 2;
 
-/**
- * Consultamos solo las notas que pertenecen al usuario actual.
- * Usamos placeholders con nombre (:user_id) para mayor claridad.
- */
 $notes = $db->query(
     "SELECT * FROM notes WHERE user_id = :user_id",
     ["user_id" => $currentUserId]
 )->get();
 
-dd([
-    'Intentando_cargar_vista' => 'views/notes/notes.view.php',
-    'La_vista_existe_fisicamente?' => file_exists('views/notes/notes.view.php')
+// 2. Carga la vista al final (y elimina el require antiguo)
+view('notes/notes.view.php', [
+    'heading' => $heading,
+    'notes' => $notes
 ]);
-
-// Carga de la vista con los datos filtrados
-require 'views/notes/notes.view.php';
 
 
 ============================================================
 ARCHIVO: controllers\notes\show.php
 ============================================================
 <?php
+// controllers/notes/show.php
 
-//dd(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$currentUserId = 2;
 
-/**
- * Controlador para visualizar una nota individual de forma segura.
- */
-$heading = "Note";
-$currentUserId = 2; // ID del usuario "logueado" (temporal)
-
-/**
- * Buscamos la nota por el ID recibido en la URL ($_GET['id']).
- * Usamos fetch() porque esperamos un solo resultado, no un conjunto.
- */
+// 1. Buscar la nota primero
 $note = $db->query("SELECT * FROM notes WHERE id = :id", [
     'id' => $_GET['id']
 ])->findOrFail();
 
-/**
- * VALIDACIÓN 1: ¿Existe la nota?
- * Si el ID no existe en la BD, fetch() devuelve false.
- */
-// if (! $note) {
-//     abort(Response::NOT_FOUND);
-// }
-
-/**
- * VALIDACIÓN 2: ¿Le pertenece al usuario?
- * Evita que un usuario vea notas ajenas adivinando el ID en la URL.
- */
-// if ($note['user_id'] !== $currentUserId) {
-//     abort(Response::FORBIDDEN);
-// }
-
+// 2. Autorizar
 authorize($note['user_id'] === $currentUserId);
 
-// Si pasa ambas validaciones, cargamos la vista del detalle
-require 'views/notes/note.view.php';
+// 3. Cargar vista al final
+view('notes/note.view.php', [
+    'heading' => 'Note',
+    'note' => $note
+]);
 
 
 ============================================================
 ARCHIVO: Database.php
 ============================================================
 <?php
+// Database.php
 
 /**
  * Data Access Layer - Wrapper de PDO para gestión segura de BD.
@@ -321,7 +288,7 @@ class Database
 ARCHIVO: estructura_proyecto.txt
 ============================================================
 ESTRUCTURA DEL PROYECTO
-Generado el: 2026-02-08 16:28:01
+Generado el: 2026-02-08 17:41:27
 ==============================
 
 app_notas_pract\
@@ -344,6 +311,7 @@ app_notas_pract\
 ├── exportador.php
 ├── functions.php
 ├── index.php
+├── proyecto_completo.txt
 ├── router.php
 ├── routes.php
 └── views
@@ -367,39 +335,77 @@ app_notas_pract\
 ARCHIVO: functions.php
 ============================================================
 <?php
+// functions.php
+
+/**
+ * NAVEGACIÓN Y RUTAS
+ * ============================================================
+ */
+
+/**
+ * Retorna la ruta absoluta desde la raíz del proyecto.
+ * Usamos una constante o definimos la raíz basándonos en este archivo.
+ */
+function base_path($path)
+{
+    // __DIR__ aquí es C:\xampp\htdocs\app_notas_pract
+    return __DIR__ . DIRECTORY_SEPARATOR . $path;
+}
 
 /**
  * Determina si la URL actual coincide con el valor dado.
- * * Ejemplo de flujo:
- * Si la URL es: http://localhost/app_notas_pract/notes
- * parse_url devolverá: "/app_notas_pract/notes"
- * $value debe ser exactamente: "/app_notas_pract/notes"
  */
 function urlIs($value)
 {
-    // Obtenemos solo el path de la URL (ej: /app_notas_pract/about)
-    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    return $currentPath === $value;
+    return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === $value;
 }
 
+/**
+ * GESTIÓN DE VISTAS Y RESPUESTAS
+ * ============================================================
+ */
+
+/**
+ * Carga una vista y le inyecta variables.
+ */
+function view($path, $attributes = [])
+{
+    extract($attributes);
+    require base_path('views/' . $path);
+}
+
+/**
+ * Detiene la ejecución con un código de error y su vista correspondiente.
+ */
+function abort($code = 404)
+{
+    http_response_code($code);
+    require base_path("views/{$code}.php");
+    die();
+}
+
+/**
+ * SEGURIDAD Y CONTROL
+ * ============================================================
+ */
 
 function authorize($condition)
 {
     if (!$condition) {
-        abort(Response::FORBIDDEN);
+        abort(Response::FORBIDDEN); // [cite: 48, 81]
     }
 }
 
 /**
- * Dump and Die: Imprime una variable de forma legible y detiene la ejecución.
- * Útil para debuggear el estado de los datos en medio del flujo.
+ * DEBUGGING
+ * ============================================================
  */
+
 function dd($value)
 {
     echo "<pre style='background:#18181b; color:#fbbf24; padding:20px; border-radius:8px; overflow:auto; line-height:1.5; border:1px solid #3f3f46;'>";
     var_dump($value);
     echo "</pre>";
-
     die();
 }
 
@@ -408,28 +414,31 @@ function dd($value)
 ARCHIVO: generar_mapa.php
 ============================================================
 <?php
+// Generador de manifiesto de estructura para documentación técnica.
 
 $dirToScan = __DIR__;
 $outputFile = 'estructura_proyecto.txt';
+
+// Lista negra: evitamos recursión infinita y ruido de dependencias/entorno.
 $excluded = ['vendor', 'node_modules', '.git', '.idea', '.vscode', 'generar_mapa.php', 'generar.bat'];
 
 /**
- * @param string $dir Directorio actual
- * @param string $prefix Prefijo visual para las ramas
- * @param array $excluded Carpetas y archivos a ignorar
- * @return string
+ * Construye una representación visual (ASCII tree) del sistema de archivos.
+ * Emplea recursividad para resolver la jerarquía de directorios.
  */
 function buildTree($dir, $prefix = '', $excluded = [])
 {
     $result = "";
+
+    // scandir() es eficiente para volúmenes moderados de archivos.
     $files = scandir($dir);
 
-    // Quitamos . y .. y los excluidos
+    // Normalización: removemos punteros de sistema y elementos excluidos.
     $files = array_filter($files, function ($file) use ($excluded) {
         return !in_array($file, $excluded) && $file !== '.' && $file !== '..';
     });
 
-    // Reindexamos para saber cuál es el último elemento
+    // Reset de índices para garantizar que el cálculo de $isLast sea preciso.
     $files = array_values($files);
     $count = count($files);
 
@@ -437,13 +446,12 @@ function buildTree($dir, $prefix = '', $excluded = [])
         $path = $dir . DIRECTORY_SEPARATOR . $file;
         $isLast = ($index === $count - 1);
 
-        // Elegimos el conector según la posición
+        // Lógica de dibujo: conectores Unicode para claridad visual en editores de texto.
         $connector = $isLast ? '└── ' : '├── ';
-
         $result .= $prefix . $connector . $file . PHP_EOL;
 
         if (is_dir($path)) {
-            // Si es carpeta, bajamos un nivel con un nuevo prefijo
+            // Indentación dinámica: ajusta el prefijo según la profundidad y posición del nodo padre.
             $newPrefix = $prefix . ($isLast ? '    ' : '│   ');
             $result .= buildTree($path, $newPrefix, $excluded);
         }
@@ -451,15 +459,16 @@ function buildTree($dir, $prefix = '', $excluded = [])
     return $result;
 }
 
-// Construcción del contenido final
+// Metadata del reporte para trazabilidad.
 $header = "ESTRUCTURA DEL PROYECTO" . PHP_EOL;
 $header .= "Generado el: " . date('Y-m-d H:i:s') . PHP_EOL;
 $header .= str_repeat('=', 30) . PHP_EOL . PHP_EOL;
 $header .= basename($dirToScan) . DIRECTORY_SEPARATOR . PHP_EOL;
 
-// Aquí estaba el fallo: simplemente concatenamos el retorno de la función
+// Inyección de la rama principal (Root).
 $treeBody = buildTree($dirToScan, '', $excluded);
 
+// Operación atómica de escritura: persistimos el resultado en disco.
 file_put_contents($outputFile, $header . $treeBody);
 
 echo "¡Listo! Estructura limpia generada en: $outputFile" . PHP_EOL;
@@ -469,13 +478,14 @@ echo "¡Listo! Estructura limpia generada en: $outputFile" . PHP_EOL;
 ARCHIVO: index.php
 ============================================================
 <?php
+// index.php
 
 /**
  * Bootstrapping: Cargamos el corazón de la aplicación
  */
+require 'Response.php';
 require 'functions.php';
 require 'Database.php';
-require 'Response.php'; // Cargado junto a las herramientas
 
 // 1. Cargamos la configuración técnica
 $config = require 'config.php';
@@ -581,6 +591,7 @@ os nombres de los archivos dentro de la carpeta controllers/notes/ tienen un sig
 ARCHIVO: Response.php
 ============================================================
 <?php
+// Response.php
 
 /**
  * Provee constantes para códigos de respuesta HTTP.
@@ -597,41 +608,16 @@ class Response
 ARCHIVO: router.php
 ============================================================
 <?php
+// router.php
+
+/**
+ * Lógica de ruteo: Determina qué controlador cargar basándose en la URL.
+ */
 
 $routes = require 'routes.php';
 
-/**
- * Captura la URI actual ignorando parámetros query (como ?id=1) 
- * para poder compararla con nuestro mapa de rutas.
- */
+// Captura la URI actual (ej: /app_notas_pract/notes)
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// dd($uri);
-// dd([
-//     'URI_SOLICITADA' => $uri,
-//     'RUTAS_REGISTRADAS' => array_keys($routes),
-//     'EXISTE_EN_MAPA' => array_key_exists($uri, $routes)
-// ]);
-if (array_key_exists($uri, $routes)) {
-    // ESTE DD TE DIRÁ SI EL ARCHIVO FÍSICO REALMENTE ESTÁ AHÍ
-    dd([
-        'Ruta_que_intenta_cargar' => $routes[$uri],
-        'El_archivo_existe_fisicamente?' => file_exists($routes[$uri])
-    ]);
-
-    require $routes[$uri];
-}
-
-
-
-/**
- * Detiene la ejecución y carga una vista de error (404, 403, etc).
- */
-function abort($code = 404)
-{
-    http_response_code($code);
-    require "views/{$code}.php";
-    die();
-}
 
 /**
  * Verifica si la URI existe en el mapa y carga el controlador correspondiente.
@@ -640,13 +626,17 @@ function abort($code = 404)
 function routeToController($uri, $routes, $db)
 {
     if (array_key_exists($uri, $routes)) {
-        // dd(file_exists($routes[$uri]));
-        if (file_exists($routes[$uri])) {
-            require $routes[$uri];
+        // Usamos base_path para obtener la ruta absoluta desde la raíz
+        $path = base_path($routes[$uri]);
+
+        if (file_exists($path)) {
+            require $path;
         } else {
+            // Si el archivo del controlador no existe físicamente
             abort(Response::NOT_FOUND);
         }
     } else {
+        // Si la URL no está definida en el archivo routes.php
         abort(Response::NOT_FOUND);
     }
 }
@@ -659,6 +649,7 @@ routeToController($uri, $routes, $db);
 ARCHIVO: routes.php
 ============================================================
 <?php
+// routes.php
 
 /**
  * Mapa de rutas: Asocia URIs específicas con sus respectivos controladores.
@@ -678,7 +669,7 @@ return [
 ARCHIVO: Validator.php
 ============================================================
 <?php
-
+// Validator.php
 class Validator
 {
     public static function string($value, $min = 1, $max = 255)
@@ -810,9 +801,11 @@ ARCHIVO: views\index.view.php
 ============================================================
 ARCHIVO: views\notes\note-create.view.php
 ============================================================
-<?php require("partials/head.php") ?>
-<?php require("partials/nav.php") ?>
-<?php require("partials/banner.php") ?>
+<?php require base_path('views/partials/head.php') ?>
+<?php require base_path('views/partials/nav.php') ?>
+<?php require base_path('views/partials/banner.php') ?>
+
+
 
 <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -862,15 +855,14 @@ ARCHIVO: views\notes\note-create.view.php
     </div>
 </main>
 
-<?php require("partials/footer.php") ?>
+<?php require base_path('views/partials/footer.php') ?>
 
 ============================================================
 ARCHIVO: views\notes\note.view.php
 ============================================================
-<?php require("partials/head.php") ?>
-<?php require("partials/nav.php") ?>
-<?php require("partials/banner.php") ?>
-
+<?php require base_path('views/partials/head.php') ?>
+<?php require base_path('views/partials/nav.php') ?>
+<?php require base_path('views/partials/banner.php') ?>
 <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div class="mb-6">
@@ -920,14 +912,14 @@ ARCHIVO: views\notes\note.view.php
     </div>
 </main>
 
-<?php require("partials/footer.php") ?>
+<?php require base_path('views/partials/footer.php') ?>
 
 ============================================================
 ARCHIVO: views\notes\notes.view.php
 ============================================================
-<?php require("partials/head.php") ?>
-<?php require("partials/nav.php") ?>
-<?php require("partials/banner.php") ?>
+<?php require base_path('views/partials/head.php') ?>
+<?php require base_path('views/partials/nav.php') ?>
+<?php require base_path('views/partials/banner.php') ?>
 
 <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -980,7 +972,7 @@ ARCHIVO: views\notes\notes.view.php
     </div>
 </main>
 
-<?php require("partials/footer.php") ?>
+<?php require base_path('views/partials/footer.php') ?>
 
 ============================================================
 ARCHIVO: views\partials\banner.php
