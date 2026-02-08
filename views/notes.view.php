@@ -27,6 +27,29 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        <div class="mt-10 rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-6 shadow-sm">
+            <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                <div class="flex items-center gap-4">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-indigo-600/20 text-indigo-400">
+                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white">¿Tienes algo nuevo en mente?</h3>
+                        <p class="text-sm text-gray-400">No dejes que tus ideas se escapen. Crea una nota ahora mismo.</p>
+                    </div>
+                </div>
+
+                <a href="/app_notas_pract/notes/create"
+                    class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-indigo-500 hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600">
+                    <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Crear Nota Nueva
+                </a>
+            </div>
+        </div>
     </div>
 </main>
 

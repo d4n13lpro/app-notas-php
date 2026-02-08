@@ -28,9 +28,11 @@ $note = $db->query("SELECT * FROM notes WHERE id = :id", [
  * VALIDACIÓN 2: ¿Le pertenece al usuario?
  * Evita que un usuario vea notas ajenas adivinando el ID en la URL.
  */
-if ($note['user_id'] !== $currentUserId) {
-    abort(Response::FORBIDDEN);
-}
+// if ($note['user_id'] !== $currentUserId) {
+//     abort(Response::FORBIDDEN);
+// }
+
+authorize($note['user_id'] === $currentUserId);
 
 // Si pasa ambas validaciones, cargamos la vista del detalle
 require 'views/note.view.php';

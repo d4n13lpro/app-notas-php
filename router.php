@@ -1,21 +1,13 @@
 <?php
 
+$routes = require 'routes.php';
+
 /**
  * Captura la URI actual ignorando parámetros query (como ?id=1) 
  * para poder compararla con nuestro mapa de rutas.
  */
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-/**
- * Mapa de rutas: Asocia URIs específicas con sus respectivos controladores.
- */
-$routes = [
-    "/app_notas_pract/"         => "controllers/index.php",
-    "/app_notas_pract/about"   => "controllers/about.php",
-    "/app_notas_pract/contact" => "controllers/contact.php",
-    "/app_notas_pract/notes"   => "controllers/notes.php",
-    "/app_notas_pract/note"    => "controllers/note.php" // Ruta para detalle individual
-];
 
 /**
  * Detiene la ejecución y carga una vista de error (404, 403, etc).
@@ -34,9 +26,13 @@ function abort($code = 404)
 function routeToController($uri, $routes, $db)
 {
     if (array_key_exists($uri, $routes)) {
-        require $routes[$uri];
+        if (file_exists($routes[$uri])) {
+            require $routes[$uri];
+        } else {
+            abort(Response::NOT_FOUND);
+        }
     } else {
-        abort();
+        abort(Response::NOT_FOUND);
     }
 }
 

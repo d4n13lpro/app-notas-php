@@ -15,6 +15,14 @@ function urlIs($value)
     return $currentPath === $value;
 }
 
+
+function authorize($condition)
+{
+    if (!$condition) {
+        abort(Response::FORBIDDEN);
+    }
+}
+
 /**
  * Dump and Die: Imprime una variable de forma legible y detiene la ejecución.
  * Útil para debuggear el estado de los datos en medio del flujo.
