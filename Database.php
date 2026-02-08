@@ -1,4 +1,5 @@
 <?php
+// Database.php
 
 /**
  * Data Access Layer - Wrapper de PDO para gestión segura de BD.

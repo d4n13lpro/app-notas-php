@@ -75,3 +75,5 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
+
+os nombres de los archivos dentro de la carpeta controllers/notes/ tienen un significado estandarizado:AcciónRuta (URI)ControladorPropósitoIndex/notesnotes/index.phpLista todas las notas.Show/note?id=...notes/show.phpMuestra una nota específica (detalle).Create/notes/createnotes/create.phpMuestra el formulario y procesa la creación.

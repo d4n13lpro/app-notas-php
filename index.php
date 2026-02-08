@@ -1,11 +1,12 @@
 <?php
+// index.php
 
 /**
  * Bootstrapping: Cargamos el corazón de la aplicación
  */
+require 'Response.php';
 require 'functions.php';
 require 'Database.php';
-require 'Response.php'; // Cargado junto a las herramientas
 
 // 1. Cargamos la configuración técnica
 $config = require 'config.php';

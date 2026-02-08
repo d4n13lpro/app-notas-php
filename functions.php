@@ -1,37 +1,74 @@
 <?php
+// functions.php
+
+/**
+ * NAVEGACIÓN Y RUTAS
+ * ============================================================
+ */
+
+/**
+ * Retorna la ruta absoluta desde la raíz del proyecto.
+ * Usamos una constante o definimos la raíz basándonos en este archivo.
+ */
+function base_path($path)
+{
+    // __DIR__ aquí es C:\xampp\htdocs\app_notas_pract
+    return __DIR__ . DIRECTORY_SEPARATOR . $path;
+}
 
 /**
  * Determina si la URL actual coincide con el valor dado.
- * * Ejemplo de flujo:
- * Si la URL es: http://localhost/app_notas_pract/notes
- * parse_url devolverá: "/app_notas_pract/notes"
- * $value debe ser exactamente: "/app_notas_pract/notes"
  */
 function urlIs($value)
 {
-    // Obtenemos solo el path de la URL (ej: /app_notas_pract/about)
-    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-    return $currentPath === $value;
+    return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === $value;
 }
 
+/**
+ * GESTIÓN DE VISTAS Y RESPUESTAS
+ * ============================================================
+ */
+
+/**
+ * Carga una vista y le inyecta variables.
+ */
+function view($path, $attributes = [])
+{
+    extract($attributes);
+    require base_path('views/' . $path);
+}
+
+/**
+ * Detiene la ejecución con un código de error y su vista correspondiente.
+ */
+function abort($code = 404)
+{
+    http_response_code($code);
+    require base_path("views/{$code}.php");
+    die();
+}
+
+/**
+ * SEGURIDAD Y CONTROL
+ * ============================================================
+ */
 
 function authorize($condition)
 {
     if (!$condition) {
-        abort(Response::FORBIDDEN);
+        abort(Response::FORBIDDEN); // [cite: 48, 81]
     }
 }
 
 /**
- * Dump and Die: Imprime una variable de forma legible y detiene la ejecución.
- * Útil para debuggear el estado de los datos en medio del flujo.
+ * DEBUGGING
+ * ============================================================
  */
+
 function dd($value)
 {
     echo "<pre style='background:#18181b; color:#fbbf24; padding:20px; border-radius:8px; overflow:auto; line-height:1.5; border:1px solid #3f3f46;'>";
     var_dump($value);
     echo "</pre>";
-
     die();
 }

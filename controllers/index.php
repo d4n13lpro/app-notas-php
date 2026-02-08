@@ -1,4 +1,5 @@
 <?php
+// controllers/index.php
 
 /**
  * Controlador de la página de inicio (Landing Page).

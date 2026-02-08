@@ -1,4 +1,5 @@
 <?php
+// config.php
 
 /**
  * Configuración global de la aplicación.

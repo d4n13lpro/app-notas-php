@@ -1,4 +1,5 @@
 <?php
+// Response.php
 
 /**
  * Provee constantes para códigos de respuesta HTTP.
