@@ -15,7 +15,7 @@ $heading = "Home";
  */
 $id = $_GET['id'] ?? 2;
 
-$notes = $db->query("SELECT * FROM notes WHERE id=:id", ['id' => $id])->fetchAll();
+$notes = $db->query("SELECT * FROM notes WHERE id=:id", ['id' => $id])->find();
 
 // Cargamos la vista principal
 require 'views/index.view.php';

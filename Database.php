@@ -8,6 +8,7 @@ class Database
 {
     public $connection;
 
+    public $statement;
     /**
      * Establece la conexión inicial con el servidor de BD.
      */
@@ -17,9 +18,9 @@ class Database
         $dsn = 'mysql:' . http_build_query($config, '', ';');
 
         $this->connection = new PDO($dsn, $username, $password, [
-            // Configura el modo de obtención de datos a arreglos asociativos por defecto
+            // PDO::FETCH_ASSOC: Hace que los resultados sean arreglos con nombres de columnas ($nota['title']) en lugar de números ($nota[0]).
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            // Habilita el lanzamiento de excepciones para errores de SQL
+            // PDO::ERRMODE_EXCEPTION: Obliga a PHP a mostrarte el error exacto de SQL (ej: "Error de sintaxis cerca de WHERE"). Sin esto, a veces las consultas fallan en silencio
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
     }
@@ -30,9 +31,19 @@ class Database
      */
     public function query($query, $params = [])
     {
-        $statement = $this->connection->prepare($query);
-        $statement->execute($params);
+        $this->statement = $this->connection->prepare($query);
+        $this->statement->execute($params);
 
-        return $statement;
+        return $this;
+    }
+
+    public function get()
+    {
+        return $this->statement->fetchAll();
+    }
+
+    public function find()
+    {
+        return $this->statement->fetch();
     }
 }

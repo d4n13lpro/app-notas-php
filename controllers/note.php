@@ -14,7 +14,7 @@ $currentUserId = 2; // ID del usuario "logueado" (temporal)
  */
 $note = $db->query("SELECT * FROM notes WHERE id = :id", [
     'id' => $_GET['id']
-])->fetch();
+])->find();
 
 /**
  * VALIDACIÓN 1: ¿Existe la nota?
