@@ -14,15 +14,15 @@ $currentUserId = 2; // ID del usuario "logueado" (temporal)
  */
 $note = $db->query("SELECT * FROM notes WHERE id = :id", [
     'id' => $_GET['id']
-])->find();
+])->findOrFail();
 
 /**
  * VALIDACIÓN 1: ¿Existe la nota?
  * Si el ID no existe en la BD, fetch() devuelve false.
  */
-if (! $note) {
-    abort(Response::NOT_FOUND);
-}
+// if (! $note) {
+//     abort(Response::NOT_FOUND);
+// }
 
 /**
  * VALIDACIÓN 2: ¿Le pertenece al usuario?
