@@ -12,17 +12,48 @@ Un sistema de gestión de notas desarrollado en **PHP nativo** siguiendo el patr
 ## 📂 Estructura del Proyecto
 
 ```text
-app_notas_pract/
-├── controllers/          # Lógica de manejo de peticiones
-├── views/                # Archivos de plantilla (HTML/PHP)
-│   └── partials/         # Componentes reutilizables (Nav, Footer, etc.)
-├── config.php            # Arreglo de configuración (DB, credenciales)
-├── Database.php          # Wrapper de conexión PDO
-├── router.php            # Motor de enrutamiento
-├── functions.php         # Helpers y utilidades globales
-├── index.php             # Punto de entrada único (Front Controller)
-└── .htaccess             # Reescritura de URLs para limpieza de URIs
+ESTRUCTURA DEL PROYECTO
+Generado el: 2026-02-08 03:47:16
+==============================
+
+app_notas_pract\
+├── .gitignore
+├── .htaccess
+├── Database.php
+├── README.md
+├── Response.php
+├── config.php
+├── controllers
+│   ├── about.php
+│   ├── contact.php
+│   ├── index.php
+│   ├── note-create.php
+│   ├── note.php
+│   └── notes.php
+├── estructura_proyecto.txt
+├── exportador.php
+├── functions.php
+├── index.php
+├── router.php
+├── routes.php
+└── views
+    ├── 403.PHP
+    ├── 404.php
+    ├── about.view.php
+    ├── contact.view.php
+    ├── index.view.php
+    ├── note-create.view.php
+    ├── note.view.php
+    ├── notes.view.php
+    └── partials
+        ├── banner.php
+        ├── footer.php
+        ├── head.php
+        └── nav.php
 ```
+
+```mysql
+
 
 CREATE TABLE `notes` (
 `id` int NOT NULL AUTO_INCREMENT,
@@ -43,3 +74,4 @@ CREATE TABLE `users` (
 PRIMARY KEY (`id`),
 UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```

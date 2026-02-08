@@ -1,5 +1,5 @@
 ESTRUCTURA DEL PROYECTO
-Generado el: 2026-02-08 02:17:04
+Generado el: 2026-02-08 03:47:16
 ==============================
 
 app_notas_pract\
@@ -28,8 +28,8 @@ app_notas_pract\
     ├── about.view.php
     ├── contact.view.php
     ├── index.view.php
+    ├── note-create.view.php
     ├── note.view.php
-    ├── note_create.view.php
     ├── notes.view.php
     └── partials
         ├── banner.php
